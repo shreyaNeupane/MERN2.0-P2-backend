@@ -1,11 +1,4 @@
-
-import { 
-    Table,
-    Column,
-    Model,
-    DataType,
-  
-} from 'sequelize-typescript'
+import { Table, Column, Model, DataType } from "sequelize-typescript";
 
 @Table({
   tableName: "users",
@@ -26,8 +19,13 @@ class User extends Model {
   declare email: string;
 
   @Column({
+    type: DataType.ENUM("customer", "admin"),
+    defaultValue: "customer",
+  })
+  declare role : string
+  @Column({
     type: DataType.STRING,
   })
   declare password: string;
 }
-export default User
+export default User;
