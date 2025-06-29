@@ -19,7 +19,7 @@ sequelize
     console.log(err);
   });
 
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: false}).then(() => {
   console.log("syncedd !!");
 });
 
