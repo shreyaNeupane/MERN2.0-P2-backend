@@ -7,7 +7,11 @@ dotenv.config();
 
 import("./database/connection");
 import userRoute from './routes/userRoute'
+ import adminSeeder from "./adminSeeder";
 app.use(express.json())
+
+//admin seeder
+ adminSeeder()
 // localhost:300/register
 app.use("",userRoute)
 
