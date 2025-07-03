@@ -12,7 +12,7 @@ import {
   modelName: "Product",
   timestamps: true,
 })
-class User extends Model {
+class Product extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -42,8 +42,8 @@ class User extends Model {
   declare productTotalstockQty: number;
 
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.STRING,
   })
-  declare productImgUrl: number;
+  declare productImageUrl: string;
 }
-export default User;
+export default Product;

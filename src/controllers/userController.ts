@@ -5,25 +5,23 @@ import jwt from "jsonwebtoken";
 
 class AuthController {
   public static async registerUser(req: Request, res: Response): Promise<void> {
-
-      const { username, email, password, role } = req.body;
-      if (!username || !email || !password ) {
-        res.status(400).json({
-          message: "Please provide username,email,password",
-        });
-        return;
-      }
-      await User.create({
-        username,
-        email,
-        password: bcrypt.hashSync(password, 8),
-        role: role,
+    const { username, email, password, role } = req.body;
+    if (!username || !email || !password) {
+      res.status(400).json({
+        message: "Please provide username,email,password",
       });
+      return;
+    }
+    await User.create({
+      username,
+      email,
+      password: bcrypt.hashSync(password, 8),
+      role: role,
+    });
 
-      res.status(200).json({
-        message: "User registered sucessfully",
-      });
-   
+    res.status(200).json({
+      message: "User registered sucessfully",
+    });
   }
 
   //for login
@@ -59,10 +57,15 @@ class AuthController {
       return;
     }
     //generate token
-    //id vanne key ma table ko id id garne
-    const token = jwt.sign({ id: data.id }, process.env.SECERT as string, {
+    // id vanne key ma table ko id id garne
+    const token = jwt.sign({ id:data.id }, process.env.SECRET_KEY as string, {
       expiresIn: "20d",
     });
+    // const SECRET_KEY = "jwtkey...";
+
+    // const token = jwt.sign({id:data.id }, SECRET_KEY, {
+    //   expiresIn: "20d",
+    // });
     res.status(200).json({
       message: "logged in sucessfully",
       data: token,

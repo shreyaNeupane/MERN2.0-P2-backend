@@ -5,14 +5,14 @@ import errorHandler from "./../services/catchAsyncError";
 
 interface AuthRequest extends Request {
   user?: {
-    username: string;
+  
     email: string;
     role: string;
     password: string;
     id: string;
   };
 }
-enum Role {
+export enum Role {
   Admin = "admin",
   Customer = "customer",
 }
@@ -31,9 +31,10 @@ class AuthMiddleware {
       return;
     }
     //verify token if it is legit or tampared
+    console.log("SECRET_KEY:", process.env.SECRET_KEY);
     jwt.verify(
       token,
-      process.env.SECERT_KEY as string,
+      process.env.SECRET_KEY as string,
       async (err: any, decoded: any) => {
         if (err) {
           const userData = await User.findByPk(decoded.id);
@@ -53,6 +54,7 @@ class AuthMiddleware {
             res.status(500).json({
               message: "Something went wrong",
             });
+
           }
         }
       }
