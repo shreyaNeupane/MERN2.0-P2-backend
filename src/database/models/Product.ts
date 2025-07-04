@@ -5,7 +5,9 @@ import {
   DataType,
   NotNull,
   AllowNull,
+  ForeignKey
 } from "sequelize-typescript";
+import Category from "./Category";
 
 @Table({
   tableName: "products",

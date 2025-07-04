@@ -1,4 +1,7 @@
-import { Sequelize } from "sequelize-typescript";
+import { ForeignKey, Sequelize } from "sequelize-typescript";
+import User from "./models/User";
+import Product from "./models/Product";
+import Category from "./models/Category";
 
 const sequelize = new Sequelize({
   database: process.env.DB_NAME,
@@ -22,5 +25,14 @@ sequelize
 sequelize.sync({ force: false}).then(() => {
   console.log("syncedd !!");
 });
+
+// Relationships
+
+User.hasMany(Product, { foreignKey: "userId" });
+Product.belongsTo(User, { foreignKey: "userId" });
+
+// kunai pani product ko yeuta category hunxa and vice versa
+Product.belongsTo(Category,{foreignKey:'categoryId'})
+Category.hasOne(Product, {foreignKey:'categoryId'});
 
 export default sequelize;

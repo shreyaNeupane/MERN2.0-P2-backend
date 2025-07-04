@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 import User from "../database/models/User";
 import errorHandler from "./../services/catchAsyncError";
 
-interface AuthRequest extends Request {
+export interface AuthRequest extends Request {
   user?: {
   
     email: string;
