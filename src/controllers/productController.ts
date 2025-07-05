@@ -5,6 +5,7 @@ import Category from "./../database/models/Category";
 import User from "../database/models/User";
 
 class ProductController {
+  //  to add product
   async addProduct(req: AuthRequest, res: Response): Promise<void> {
     const userId = req.user?.id;
     const {
@@ -47,6 +48,7 @@ class ProductController {
       message: "product added sucessfully",
     });
   }
+  // to get all products
   async getAllProducts(req: Request, res: Response): Promise<void> {
     const data = await Product.findAll({
       //User table ko data pani print hune vayo becaue user is connected to product table
@@ -65,6 +67,50 @@ class ProductController {
       message: "Products fetched sucessfully",
       data,
     });
+  }
+
+  // to get single product
+  async getSingleProduct(req:Request,res:Response):Promise<void>{
+    const id = req.params.id 
+    const data = await Product.findAll({
+      where: {
+        id  : id
+      }
+    })
+    if(data.length == 0){
+      res.status(404).json({
+        message : "No product with that id"
+      })
+    }else{
+      res.status(200).json({
+        message : "Product fetched sucessfully",
+        data
+      })
+    }
+  }
+// to delte product
+  async deleteProduct(req : Request , res:Response) : Promise<void>{
+    const {id} = req.params
+    const data = await Product.findAll({
+      where : {
+        id : id
+      }
+    })
+    if(data.length > 0){
+      await Product.destroy({
+        where : {
+          id : id
+        }
+      })
+      res.status(200).json({
+        message: "Product deleted sucuessfully",
+      });
+    }else{
+      res.status(404).json({
+        message: "No product with that ID",
+      });
+    }
+   
   }
 }
 
