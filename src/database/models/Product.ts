@@ -47,5 +47,7 @@ class Product extends Model {
     type: DataType.STRING,
   })
   declare productImageUrl: string;
+
+  
 }
 export default Product;

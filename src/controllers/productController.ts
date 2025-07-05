@@ -50,67 +50,83 @@ class ProductController {
   }
   // to get all products
   async getAllProducts(req: Request, res: Response): Promise<void> {
-    const data = await Product.findAll({
-      //User table ko data pani print hune vayo becaue user is connected to product table
-      include: [
-        {
-          model: User,
-          attributes: ['id','email','username'],
-        },
-        {
-          model: Category,
-          attributes: ["categoryName"],
-        },
-      ],
-    });
-    res.status(200).json({
-      message: "Products fetched sucessfully",
-      data,
-    });
+    try {
+      const data = await Product.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ["id", "email"],
+          },
+          {
+            model: Category,
+            attributes: ["categoryName"],
+          },
+        ],
+      });
+
+      res.status(200).json({
+        message: "Products fetched successfully",
+        data,
+      });
+    } catch (error) {
+      console.error("==== FULL ERROR ====");
+      console.error(error);
+      res.status(500).json({
+        message: "Internal server error",
+        error,
+      });
+    }
   }
 
   // to get single product
-  async getSingleProduct(req:Request,res:Response):Promise<void>{
-    const id = req.params.id 
+  async getSingleProduct(req: Request, res: Response): Promise<void> {
+    const id = req.params.id;
     const data = await Product.findAll({
       where: {
-        id  : id
-      }
-    })
-    if(data.length == 0){
+        id: id,
+      },
+      include : [{
+        model : User,
+        attributes : ['id','email']
+      },
+      {
+        model : Category,
+        attributes : ['id', 'CategoryName']
+      }]
+    });
+    if (data.length == 0) {
       res.status(404).json({
-        message : "No product with that id"
-      })
-    }else{
+        message: "No product with that id",
+      });
+    } else {
       res.status(200).json({
-        message : "Product fetched sucessfully",
-        data
-      })
+        message: "Product fetched sucessfully",
+        data,
+      });
     }
   }
-// to delte product
-  async deleteProduct(req : Request , res:Response) : Promise<void>{
-    const {id} = req.params
+  // to delte product
+  async deleteProduct(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
     const data = await Product.findAll({
-      where : {
-        id : id
-      }
-    })
-    if(data.length > 0){
+      where: {
+        id: id,
+      },
+    });
+    if (data.length > 0) {
       await Product.destroy({
-        where : {
-          id : id
-        }
-      })
+        where: {
+          id: id,
+        },
+      });
       res.status(200).json({
         message: "Product deleted sucuessfully",
       });
-    }else{
+    } else {
       res.status(404).json({
         message: "No product with that ID",
       });
     }
-   
   }
 }
 
