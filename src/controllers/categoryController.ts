@@ -1,5 +1,6 @@
+import { where } from "sequelize";
 import Category from "../database/models/Category";
-
+import { Request, Response } from "express";
 class CategoryController {
   categoryData = [
     {
@@ -20,6 +21,65 @@ class CategoryController {
     } else {
       console.log("Categories already seeded");
     }
+  }
+  // to add category
+  async addCategory(req: Request, res: Response): Promise<void> {
+    const { categoryName } = req.body;
+    if (!categoryName) {
+      res.status(400).json({ message: "Please provide categoryName" });
+      return;
+    }
+    await Category.create({
+      categoryName,
+    });
+    res.status(200).json({
+      message: "category added sucessfully",
+    });
+  }
+
+  // to get category
+
+  async getCategories(req: Request, res: Response): Promise<void> {
+    const data = Category.findAll();
+    res.status(200).json({
+      message: "categories fetched",
+      data,
+    });
+  }
+
+  // to delete category
+  async deleteCategory(req: Request, res: Response): Promise<void> {
+   const {id} = req.params
+    const data = await Category.findAll({
+    where :  {id }
+  })
+    if(data.length === 0){
+      res.status(404).json({
+        message: "No product with that ID"
+    })
+    
+  }else{
+    await Category.destroy({
+      where : { id }
+      })
+      res.status(200).json({
+        message : "Category deleted"
+      })
+    }
+  }
+
+  // to update category
+  async updateCategory(req:Request, res:Response):Promise<void>{
+    const {id} = req.params
+    const {categoryName} = req.body
+    await Category.update({categoryName},{
+      where:{
+        id
+      }
+    })
+    res.status(200).json({
+      message : "Category updated"
+    })
   }
 }
 export default new CategoryController();
