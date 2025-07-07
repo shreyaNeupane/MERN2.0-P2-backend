@@ -23,7 +23,7 @@ sequelize
     console.log(err);
   });
 
-sequelize.sync({ force: false}).then(() => {
+sequelize.sync({ force: false }).then(() => {
   console.log("syncedd !!");
 });
 
@@ -34,12 +34,12 @@ Product.belongsTo(User, { foreignKey: "userId" });
 
 // one to one
 // kunai pani product ko yeuta category hunxa and vice versa
-Category.hasOne(Product, {foreignKey:'categoryId'});
-Product.belongsTo(Category,{foreignKey:'categoryId'})
+Category.hasOne(Product, { foreignKey: "categoryId" });
+Product.belongsTo(Category, { foreignKey: "categoryId" });
 
 //product-cart relation => one to many
-Cart.hasMany(Product,{foreignKey: "productId"})
-Product.belongsTo(Cart, { foreignKey: "productId" });
+Product.hasMany(Cart, { foreignKey: "productId" });
+Cart.belongsTo(Product, { foreignKey: "productId" });
 
 //user-cart relation
 User.hasMany(Cart, { foreignKey: "userId" });

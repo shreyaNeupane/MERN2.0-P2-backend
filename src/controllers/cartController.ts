@@ -34,9 +34,33 @@ class CartController {
       });
     }
     res.status(200).json({
-      message: "Product added t cart",
+      message: "Product added to cart",
       data: cartItem,
     });
+  }
+
+  async getMyCarts(req: AuthRequest , res:Response) :Promise <void>{
+    const userId = req.user?.id
+    const cartItems = await Cart.findAll({
+        where : {
+            userId
+        },
+        include: [
+            {
+                model : Product
+            }
+        ]
+    })
+    if(cartItems.length === 0){
+        res.status(404).json({
+            message : "No item in the cart"
+        })
+    }else{
+        res.status(200).json({
+            message : "Cart items fetched sucessfully",
+            data: cartItems
+        })
+    }
   }
 }
 export default new CartController();
