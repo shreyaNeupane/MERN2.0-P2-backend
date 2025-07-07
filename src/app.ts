@@ -11,6 +11,7 @@ import productRoute from "./routes/productRoute";
 import categoryRoute from "./routes/categoryRoute";
 import adminSeeder from "./adminSeeder";
 import categoryController from "./controllers/categoryController";
+import cartRoute from "./routes/cartRoute";
 app.use(express.json());
 
 //admin seeder
@@ -18,7 +19,8 @@ adminSeeder();
 // localhost:300/register
 app.use("", userRoute);
 app.use("/admin/product", productRoute);
-app.use("/admin/category",categoryRoute)
+app.use("/admin/category",categoryRoute);
+app.use("/customer/cart",cartRoute);
 app.listen(PORT, () => {
   // category seeder
   categoryController.seedCategory();
