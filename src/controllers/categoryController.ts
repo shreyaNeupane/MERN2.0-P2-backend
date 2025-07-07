@@ -40,7 +40,7 @@ class CategoryController {
   // to get category
 
   async getCategories(req: Request, res: Response): Promise<void> {
-    const data = Category.findAll();
+    const data = await Category.findAll();
     res.status(200).json({
       message: "categories fetched",
       data,
@@ -49,37 +49,39 @@ class CategoryController {
 
   // to delete category
   async deleteCategory(req: Request, res: Response): Promise<void> {
-   const {id} = req.params
+    const { id } = req.params;
     const data = await Category.findAll({
-    where :  {id }
-  })
-    if(data.length === 0){
+      where: { id },
+    });
+    if (data.length === 0) {
       res.status(404).json({
-        message: "No product with that ID"
-    })
-    
-  }else{
-    await Category.destroy({
-      where : { id }
-      })
+        message: "No product with that ID",
+      });
+    } else {
+      await Category.destroy({
+        where: { id },
+      });
       res.status(200).json({
-        message : "Category deleted"
-      })
+        message: "Category deleted",
+      });
     }
   }
 
   // to update category
-  async updateCategory(req:Request, res:Response):Promise<void>{
-    const {id} = req.params
-    const {categoryName} = req.body
-    await Category.update({categoryName},{
-      where:{
-        id
+  async updateCategory(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const { categoryName } = req.body;
+    await Category.update(
+      { categoryName },
+      {
+        where: {
+          id,
+        },
       }
-    })
+    );
     res.status(200).json({
-      message : "Category updated"
-    })
+      message: "Category is updated",
+    });
   }
 }
 export default new CategoryController();

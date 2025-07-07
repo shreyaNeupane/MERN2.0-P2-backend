@@ -2,6 +2,7 @@ import { ForeignKey, Sequelize } from "sequelize-typescript";
 import User from "./models/User";
 import Product from "./models/Product";
 import Category from "./models/Category";
+import Cart from "./models/Cart";
 
 const sequelize = new Sequelize({
   database: process.env.DB_NAME,
@@ -31,8 +32,17 @@ sequelize.sync({ force: false}).then(() => {
 User.hasMany(Product, { foreignKey: "userId" });
 Product.belongsTo(User, { foreignKey: "userId" });
 
+// one to one
 // kunai pani product ko yeuta category hunxa and vice versa
-Product.belongsTo(Category,{foreignKey:'categoryId'})
 Category.hasOne(Product, {foreignKey:'categoryId'});
+Product.belongsTo(Category,{foreignKey:'categoryId'})
+
+//product-cart relation => one to many
+Cart.hasMany(Product,{foreignKey: "productId"})
+Product.belongsTo(Cart, { foreignKey: "productId" });
+
+//user-cart relation
+User.hasMany(Cart, { foreignKey: "userId" });
+Cart.belongsTo(User, { foreignKey: "userId" });
 
 export default sequelize;
