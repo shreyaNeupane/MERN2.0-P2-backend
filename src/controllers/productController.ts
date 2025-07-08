@@ -105,7 +105,7 @@ class ProductController {
       });
     }
   }
-  // to delte product
+  // to delete product
   async deleteProduct(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     const data = await Product.findAll({
