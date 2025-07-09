@@ -5,7 +5,7 @@ import {
   DataType,
   NotNull,
   AllowNull,
-  ForeignKey
+  ForeignKey,
 } from "sequelize-typescript";
 import Category from "./Category";
 
@@ -47,7 +47,5 @@ class Product extends Model {
     type: DataType.STRING,
   })
   declare productImageUrl: string;
-
-  
 }
 export default Product;

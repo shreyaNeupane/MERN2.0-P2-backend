@@ -46,9 +46,11 @@ class CartController {
       where: {
         userId,
       },
+      // what do you want to see inside relation
       include: [
         {
           model: Product,
+          attributes:['productName','productDescription','productImageUrl'],
           include: [
             {
               model: Category,
@@ -57,6 +59,8 @@ class CartController {
           ],
         },
       ],
+      // what you want to see form cart only
+      attributes : ['productId']
     });
     if (cartItems.length === 0) {
       res.status(404).json({
