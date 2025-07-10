@@ -37,7 +37,7 @@ class OrderController{
      for(var i = 0; i<items.length ; i++){
         await OrderDetail.create({
             quantity : items[i].quantity,
-            productId : items[0].productId,
+            productId : items[i].productId,
             orderId : OrderData.id
         })
      }
