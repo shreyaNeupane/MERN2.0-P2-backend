@@ -15,9 +15,9 @@ class Payment extends Model {
 
   @Column({
     type: DataType.ENUM("COD", "Khalti", "esewa"),
-    allowNull: false,
+    allowNull: true,
   })
-  declare Paymentment: string;
+  declare paymentMethod: string;
 
   @Column({
     type: DataType.ENUM("paid", "unpaid"),
@@ -27,7 +27,7 @@ class Payment extends Model {
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: true,
   })
   declare pidx: string;
 }
