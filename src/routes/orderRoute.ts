@@ -9,5 +9,5 @@ const router:Router = express.Router()
 
 
 router.route('/').post(authmiddleware.isAuthenticated,errorHandler(orderController.createOrder))
-
+router.route('/verify').post(authmiddleware.isAuthenticated,errorHandler(orderController.verifyTransaction))
 export default router
