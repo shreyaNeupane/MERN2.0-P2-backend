@@ -58,7 +58,7 @@ class AuthController {
     }
     //generate token
     // id vanne key ma table ko id id garne
-    const token = jwt.sign({ id:data.id }, process.env.SECRET_KEY as string, {
+    const token = jwt.sign({ id: data.id }, process.env.SECRET_KEY as string, {
       expiresIn: "20d",
     });
     // const SECRET_KEY = "jwtkey...";

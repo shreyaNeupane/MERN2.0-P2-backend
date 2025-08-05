@@ -36,8 +36,8 @@ class AuthMiddleware {
       token,
       process.env.SECRET_KEY as string,
       async (err: any, decoded: any) => {
-        if (err) {
-          const userData = await User.findByPk(decoded.id);
+        if (err || !decoded?.id) {
+          return res.status(401).json({ message: "Invalid or expired token" });
         } else {
           //check if that decoded object id user exist or no
           try {
@@ -54,7 +54,6 @@ class AuthMiddleware {
             res.status(500).json({
               message: "Something went wrong",
             });
-
           }
         }
       }
