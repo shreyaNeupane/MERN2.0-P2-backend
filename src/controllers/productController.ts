@@ -81,7 +81,7 @@ class ProductController {
   // to get single product
   async getSingleProduct(req: Request, res: Response): Promise<void> {
     const id = req.params.id;
-    const data = await Product.findAll({
+    const data = await Product.findOne({
       where: {
         id: id,
       },
@@ -94,7 +94,7 @@ class ProductController {
         attributes : ['id', 'CategoryName']
       }]
     });
-    if (data.length == 0) {
+    if (!data) {
       res.status(404).json({
         message: "No product with that id",
       });

@@ -34,9 +34,16 @@ class CartController {
         productId,
       });
     }
+    //array vitra object dinxa
+    const data = await Cart.findAll({
+      where: {
+        userId,
+      },
+    });
+    //yeha array janxa
     res.status(200).json({
       message: "Product added to cart",
-      data: cartItem,
+      data,
     });
   }
   // to get all carts
@@ -50,17 +57,23 @@ class CartController {
       include: [
         {
           model: Product,
-          attributes:['productName','productDescription','productImageUrl'],
+          attributes: [
+            "productName",
+            "productDescription",
+            "productImageUrl",
+            "id",
+            "productPrice",
+          ],
           include: [
             {
               model: Category,
-              attributes: ["id", "categoryname"],
+              attributes: ["id", "categoryName"],
             },
           ],
         },
       ],
       // what you want to see form cart only
-      attributes : ['productId']
+      attributes: ["productId", "quantity"],
     });
     if (cartItems.length === 0) {
       res.status(404).json({
@@ -76,7 +89,7 @@ class CartController {
   // to delete product form cart
   async deleteMyCartItem(req: AuthRequest, res: Response): Promise<void> {
     const userId = req.user?.id;
-    const {productId} = req.params;
+    const { productId } = req.params;
     // check whether above productId product exist or not
     const product = await Product.findByPk(productId);
     if (!product) {
@@ -108,25 +121,25 @@ class CartController {
       });
       return;
     }
-    const cartData= await Cart.findOne({
+    const cartData = await Cart.findOne({
       where: {
         userId,
         productId,
       },
     });
 
-    if(cartData){
-cartData.quantity = quantity;
-    await cartData?.save();
-    res.status(200).json({
-      message: "product of cart uploaded sucessfully",
-      data: cartData,
-    });
-  }else{
-    res.status(400).json({
-      message:"no product exits in cart"
-    })
-  }
+    if (cartData) {
+      cartData.quantity = quantity;
+      await cartData?.save();
+      res.status(200).json({
+        message: "product of cart uploaded sucessfully",
+        data: cartData,
+      });
+    } else {
+      res.status(400).json({
+        message: "no product exits in cart",
+      });
+    }
   }
 }
 export default new CartController();
